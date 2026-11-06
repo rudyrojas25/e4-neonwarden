@@ -1,5 +1,46 @@
 /* Neon Warden: the HUD panels tilt toward the screen like an arcade cabinet. */
 
+/* st - standard
+   bann - banner
+
+
+*/
+:root {
+  --tilt: 24deg;
+
+  --border-color: rgba(94, 242, 255, 0.35);
+  --label-text-color: #6f86a8;
+  --key-text-color: #ffe066;
+  --alt-text-color: #e8fdff;
+  --score-color: #5ef2ff;
+  --boss-color: #ff4d6d;
+
+  --shadow-blur-1: 6px;
+  --shadow-blur-2: 18px;
+
+  --route-gap: 10px;
+
+  --st-radius: 10px;
+  --st-gap: 14px;
+  --st-pad: 14px;
+
+  --bann-perspective: 600px;
+  --bann-tilt: 90deg;
+
+  --panel-ms: 400ms;
+  --panel-move-x: 18px;
+
+  --cell-ms: 200ms;
+
+  --caption-ms: 500ms;
+
+  --st-font-weight: 600;
+  --st-font-size: 11px;
+  --st-letter-spacing: 0.2em;
+
+  --alt-font-size: 12px;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -9,9 +50,9 @@ body {
   min-height: 100vh;
   display: grid;
   place-content: center;
-  gap: 14px;
+  gap: var(--st-gap);
   background: radial-gradient(ellipse at 50% 30%, #1a0f3a, #04020c 70%);
-  color: #e8fdff;
+  color: var(--alt-text-color);
   font-family: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
 }
 
@@ -26,26 +67,27 @@ body {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: 14px;
-  padding: 14px;
-  border: 1px solid rgba(94, 242, 255, 0.35);
-  border-radius: 10px;
+  gap: var(--st-gap);
+  padding: var(--st-pad);
+  border: 1px solid var(--border-color);
+  border-radius: var(--st-radius);
   background: rgba(14, 10, 34, 0.86);
-  box-shadow: 0 0 24px rgba(94, 242, 255, 0.15), inset 0 0 18px rgba(94, 242,
+  box-shadow: 0 0 24px rgba(94, 242, 255, 0.15), inset 0 0 var(--shadow-blur-2)
+    rgba(94, 242,
     255, 0.08);
-  transition: opacity 400ms, transform 400ms;
+  transition: opacity var(--panel-ms), transform var(--panel-ms);
 }
 
 /* Each panel swings toward the screen and slightly overlaps its edge. */
 .panel-left {
   transform-origin: right center;
-  transform: translateX(18px) rotateY(24deg);
+  transform: translateX(var(--panel-move-x)) rotateY(var(--tilt));
 }
 
 .panel-right {
   transform-origin: left center;
-  transform: translateX(-18px) rotateY(calc(-1 *
-    24deg));
+  transform: translateX(calc(-1 * var(--panel-move-x))) rotateY(calc(-1 *
+    var(--tilt)));
 }
 
 .cabinet[data-mode="title"] .panel,
@@ -55,21 +97,23 @@ body {
 
 h2 {
   margin: 0 0 4px;
-  font: 600 11px/1 Orbitron, "Trebuchet MS", sans-serif;
-  letter-spacing: 0.2em;
+  font: var(--st-font-weight) var(--st-font-size)/1 Orbitron, "Trebuchet MS",
+    sans-serif;
+  letter-spacing: var(--st-letter-spacing);
   text-transform: uppercase;
-  color: #6f86a8;
+  color: var(--label-text-color);
 }
 
 output {
   font-size: 22px;
-  color: #5ef2ff;
-  text-shadow: 0 0 6px currentColor, 0 0 18px currentColor;
+  color: var(--score-color);
+  text-shadow: 0 0 var(--shadow-blur-1) currentColor, 0 0 var(--shadow-blur-2)
+    currentColor;
 }
 
 #best {
   font-size: 15px;
-  color: #ffe066;
+  color: var(--key-text-color);
 }
 
 .pips,
@@ -83,7 +127,7 @@ output {
   height: 12px;
   border: 1px solid currentColor;
   opacity: 0.3;
-  transition: opacity 200ms, box-shadow 200ms;
+  transition: opacity var(--cell-ms), box-shadow var(--cell-ms);
 }
 
 .pip {
@@ -91,13 +135,14 @@ output {
 }
 
 .cell {
-  color: #ffe066;
+  color: var(--key-text-color);
 }
 
 .pip.lit,
 .cell.lit {
   opacity: 1;
-  box-shadow: 0 0 6px currentColor, 0 0 18px currentColor;
+  box-shadow: 0 0 var(--shadow-blur-1) currentColor, 0 0 var(--shadow-blur-2)
+    currentColor;
 }
 
 .cell.lit {
@@ -108,12 +153,13 @@ output {
   display: none;
   margin: 0;
   padding: 4px 8px;
-  border: 1px solid #ffe066;
-  border-radius: 10px;
-  color: #ffe066;
+  border: 1px solid var(--key-text-color);
+  border-radius: var(--st-radius);
+  color: var(--key-text-color);
   text-align: center;
-  font: 600 11px/1.4 Orbitron, "Trebuchet MS", sans-serif;
-  letter-spacing: 0.2em;
+  font: var(--st-font-weight) var(--st-font-size)/1.4 Orbitron, "Trebuchet MS",
+    sans-serif;
+  letter-spacing: var(--st-letter-spacing);
   text-transform: uppercase;
   animation: blink 1.2s steps(2) infinite;
 }
@@ -126,9 +172,9 @@ output {
   position: relative;
   width: 480px;
   height: 640px;
-  border-radius: 10px;
+  border-radius: var(--st-radius);
   overflow: hidden;
-  box-shadow: 0 0 0 2px rgba(94, 242, 255, 0.35), 0 0 40px rgba(94, 242, 255,
+  box-shadow: 0 0 0 2px var(--border-color), 0 0 40px rgba(94, 242, 255,
     0.2);
 }
 
@@ -144,19 +190,19 @@ output {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 10px;
+  gap: var(--route-gap);
 }
 
 .stop {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  color: #6f86a8;
+  gap: var(--route-gap);
+  font-size: var(--alt-font-size);
+  color: var(--label-text-color);
 }
 
 .stop[data-state="cleared"] {
-  color: #5ef2ff;
+  color: var(--score-color);
 }
 
 .stop[data-state="cleared"] .stop-dot {
@@ -164,8 +210,9 @@ output {
 }
 
 .stop[data-state="current"] {
-  color: #ffe066;
-  text-shadow: 0 0 6px currentColor, 0 0 18px currentColor;
+  color: var(--key-text-color);
+  text-shadow: 0 0 var(--shadow-blur-1) currentColor, 0 0 var(--shadow-blur-2)
+    currentColor;
 }
 
 .stop[data-state="current"] .stop-dot {
@@ -173,11 +220,11 @@ output {
 }
 
 .stop:last-child {
-  color: #ff4d6d;
+  color: var(--boss-color);
 }
 
 .boss {
-  color: #ff4d6d;
+  color: var(--boss-color);
 }
 
 .boss h2 {
@@ -185,7 +232,7 @@ output {
 }
 
 .boss-meter {
-  height: 10px;
+  height: var(--route-gap);
   border: 1px solid currentColor;
   border-radius: 2px;
 }
@@ -195,7 +242,8 @@ output {
   display: block;
   height: 100%;
   background: currentColor;
-  box-shadow: 0 0 6px currentColor, 0 0 18px currentColor;
+  box-shadow: 0 0 var(--shadow-blur-1) currentColor, 0 0 var(--shadow-blur-2)
+    currentColor;
   transform-origin: left;
   transform: scaleX(var(--fill));
   transition: transform 120ms linear;
@@ -207,13 +255,13 @@ output {
   inset: 22% -6% auto;
   display: grid;
   gap: 6px;
-  padding: 14px;
+  padding: var(--st-pad);
   text-align: center;
   background: linear-gradient(90deg, transparent, rgba(14, 10, 34, 0.9) 20% 80%,
     transparent);
   pointer-events: none;
   opacity: 0;
-  transform: perspective(600px) rotateX(90deg);
+  transform: perspective(var(--bann-perspective)) rotateX(var(--bann-tilt));
 }
 
 .banner.show {
@@ -223,29 +271,30 @@ output {
 .banner strong {
   font: 700 26px/1.1 Orbitron, "Trebuchet MS", sans-serif;
   letter-spacing: 0.12em;
-  color: #ffe066;
-  text-shadow: 0 0 6px currentColor, 0 0 18px currentColor;
+  color: var(--key-text-color);
+  text-shadow: 0 0 var(--shadow-blur-1) currentColor, 0 0 var(--shadow-blur-2)
+    currentColor;
 }
 
 .banner span {
   font-size: 13px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: #e8fdff;
+  color: var(--alt-text-color);
 }
 
 .caption {
   position: absolute;
   inset: auto 8% 6%;
   margin: 0;
-  padding: 10px 14px;
-  border-left: 3px solid #5ef2ff;
+  padding: 10px var(--st-pad);
+  border-left: 3px solid var(--score-color);
   background: rgba(4, 2, 12, 0.75);
   font-size: 14px;
   line-height: 1.5;
   opacity: 0;
   transform: translateY(12px);
-  transition: opacity 500ms, transform 500ms;
+  transition: opacity var(--caption-ms), transform var(--caption-ms);
 }
 
 .caption.visible {
@@ -256,8 +305,8 @@ output {
 .help {
   margin: 0;
   text-align: center;
-  font-size: 12px;
-  color: #6f86a8;
+  font-size: var(--alt-font-size);
+  color: var(--label-text-color);
 }
 
 /* Impacts shake the whole cabinet; the panels keep their tilt while shaking. */
@@ -298,16 +347,17 @@ output {
 @keyframes banner {
   0% {
     opacity: 0;
-    transform: perspective(600px) rotateX(90deg);
+    transform: perspective(var(--bann-perspective)) rotateX(var(--bann-tilt));
   }
   15%,
   80% {
     opacity: 1;
-    transform: perspective(600px) rotateX(0);
+    transform: perspective(var(--bann-perspective)) rotateX(0);
   }
   100% {
     opacity: 0;
-    transform: perspective(600px) rotateX(-90deg);
+    transform: perspective(var(--bann-perspective)) rotateX(calc(-1 *
+      var(--bann-tilt)));
   }
 }
 
