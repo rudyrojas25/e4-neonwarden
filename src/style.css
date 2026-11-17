@@ -39,6 +39,15 @@
   --st-letter-spacing: 0.2em;
 
   --alt-font-size: 12px;
+
+  --shudderX: 3px;
+  --shudderY: 1px;
+  --shudderRotate: 0.4deg;
+
+  --quakeX: 9px;
+  --quakeY: 3px;
+  --quakeRotateX: 4deg;
+  --quakeRotateZ: 1deg;
 }
 
 * {
@@ -320,10 +329,10 @@ output {
 
 @keyframes shudder {
   25% {
-    transform: translate(-3px, 1px) rotateZ(-0.4deg);
+    transform: translate(calc(-1 * var(--shudderX)), var(--shudderY)) rotateZ(calc(-1 * var(--shudderRotate)));
   }
   50% {
-    transform: translate(3px, -1px) rotateZ(0.4deg);
+    transform: translate(var(--shudderX), calc(-1 * var(--shudderY))) rotateZ(var(--shudderRotate));
   }
   75% {
     transform: translate(-2px, 0) rotateZ(-0.2deg);
@@ -333,11 +342,11 @@ output {
 @keyframes quake {
   10%,
   50% {
-    transform: translate(-9px, 3px) rotateX(4deg) rotateZ(-1deg);
+    transform: translate(calc(-1 * var(--quakeX)), var(--quakeY)) rotateX(var(--quakeRotateX)) rotateZ(calc(-1 * var(--quakeRotateZ)));
   }
   30%,
   70% {
-    transform: translate(9px, -3px) rotateX(-4deg) rotateZ(1deg);
+    transform: translate(var(--quakeX), calc(-1 * var(--quakeY))) rotateX(calc(-1 * var(--quakeRotateX))) rotateZ(var(--quakeRotateZ));
   }
   90% {
     transform: translate(-3px, 1px);
@@ -356,8 +365,7 @@ output {
   }
   100% {
     opacity: 0;
-    transform: perspective(var(--bann-perspective)) rotateX(calc(-1 *
-      var(--bann-tilt)));
+    transform: perspective(var(--bann-perspective)) rotateX(calc(-1 * var(--bann-tilt)));
   }
 }
 
